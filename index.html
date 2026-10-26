@@ -512,7 +512,7 @@
                 
                 card.innerHTML = `
                     <div class="relative h-52 overflow-hidden bg-slate-950">
-                        <img src="${project.coverImg}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e293b/0284c7?text=CAD+View'">
+                        <img src="${project.coverImg}" alt="${project.title}" class="w-full h-full object-contain p-2 bg-slate-900 group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e293b/0284c7?text=CAD+View'">
                         <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold text-brand-orange border border-slate-700">
                             ${project.tag}
                         </div>
