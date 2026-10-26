@@ -557,6 +557,22 @@
             renderProjects();
             setupTheme();
             document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+
+            // Close modals when clicking the dark backdrop (outside the content box)
+            ['projectDetailModal', 'addProjectModal'].forEach(id => {
+                const overlay = document.getElementById(id);
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) overlay.classList.add('hidden');
+                });
+            });
+
+            // Close modals with the Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.getElementById('projectDetailModal').classList.add('hidden');
+                    document.getElementById('addProjectModal').classList.add('hidden');
+                }
+            });
         });
 
         function loadProjects() {
@@ -597,7 +613,7 @@
 
             filtered.forEach(project => {
                 const card = document.createElement('div');
-                card.className = "bg-brand-darkCard rounded-2xl border border-slate-800 overflow-hidden hover:border-brand-blue/60 transition-all duration-300 hover:-translate-y-1 shadow-lg group flex flex-col";
+                card.className = "cursor-pointer bg-brand-darkCard rounded-2xl border border-slate-800 overflow-hidden hover:border-brand-blue/60 transition-all duration-300 hover:-translate-y-1 shadow-lg group flex flex-col";
                 
                 card.innerHTML = `
                     <div class="relative h-52 overflow-hidden bg-slate-950">
@@ -625,13 +641,17 @@
                             ` : ''}
                             <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
                                 <span class="text-xs text-slate-500 code-font">Technical Specs</span>
-                                <button onclick="openProjectModal('${project.id}')" class="px-3 py-1.5 rounded-lg bg-brand-blue/10 text-brand-blue hover:bg-brand-blue hover:text-white font-semibold text-xs transition-all flex items-center gap-1.5">
+                                <button class="px-3 py-1.5 rounded-lg bg-brand-blue/10 text-brand-blue hover:bg-brand-blue hover:text-white font-semibold text-xs transition-all flex items-center gap-1.5">
                                     View Details <i class="fa-solid fa-arrow-right text-xs"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                 `;
+
+                // Clicking anywhere on the card opens the project page
+                card.addEventListener('click', () => openProjectModal(project.id));
+
                 grid.appendChild(card);
             });
         }
@@ -846,5 +866,3 @@
             mobileToggle.addEventListener('click', toggleTheme);
         }
     </script>
-</body>
-</html>
