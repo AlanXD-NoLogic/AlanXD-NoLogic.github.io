@@ -434,6 +434,81 @@
 
         // Default Pre-loaded Projects
         const defaultProjects = [
+            {
+    id: "can-knockdown-gantry",
+    title: "Can Knockdown: Automated Retrieval Gantry System",
+    tag: "Robotics",
+    shortDesc: "A dual X-axis and single Y-axis gantry system equipped with a custom magnetic pickup end effector designed to autonomously retrieve and reset knocked-down 3D-printed cans.",
+    coverImg: "Projects/final physical.jpeg",
+    isInteractiveCAD: true,
+    tools: ["SolidWorks", "Arduino", "MKS Board", "3D Printing", "Stepper Motors", "Joysticks"],
+    specs: [
+        { label: "Architecture", val: "Dual X-Axis, Single Y-Axis, Z-End Effector" },
+        { label: "Controller", val: "MKS Board" },
+        { label: "Input Controls", val: "Dual Analog Joysticks (5-Pin)" },
+        { label: "End Effector", val: "Magnetic Pickup + Mechanical Stripper" }
+    ],
+    highlights: [
+        "Designed custom SolidWorks components including aluminum bar stoppers, rigid motor holders, and a dual-opening carriage system driven by looped timing belts.",
+        "Engineered a combined Y-axis carriage and motor holder optimized for structural rigidity without adding excess weight or mechanical binding.",
+        "Developed a magnetic end effector paired with a custom mechanical stripper filter that automatically strips and drops cans back into position upon homing.",
+        "Wired and integrated dual 5-pin analog joysticks mapping X/Y axes (A15, A14) and Z-axis movement (A13) for intuitive manual operation.",
+        "Implemented software-defined homing limits and a push-button reset routine mapped to a fixed corner origin to prevent belt slipping and mechanical over-travel.",
+        
+        // --- INTERACTIVE CAD VIEWER ---
+        '<div class="mt-6 space-y-2 pt-4 border-t border-slate-700">' +
+            '<h4 class="text-sm font-bold text-brand-orange uppercase tracking-wider">Interactive 3D Assembly CAD Model</h4>' +
+            '<p class="text-xs text-slate-400 mb-2">Click and drag below to inspect the 3D model in real time.</p>' +
+            '<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>' +
+            '<model-viewer src="Projects/Final_Assem.glb" alt="3D CAD Model of Can Knockdown Gantry" auto-rotate camera-controls class="w-full h-80 rounded-lg border border-slate-700 bg-slate-900 shadow-md"></model-viewer>' +
+        '</div>' +
+        
+        // --- FABRICATION & ASSEMBLY GALLERY ---
+        '<div class="mt-6 space-y-4 pt-4 border-t border-slate-700">' +
+            '<h4 class="text-sm font-bold text-brand-orange uppercase tracking-wider">Fabrication, Prototyping & Assembly Gallery</h4>' +
+            '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">' +
+                '<div>' +
+                    '<img src="Projects/final physical.jpeg" alt="Final Physical Assembly" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Final Physical Assembly</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/cans pic.jpeg" alt="3D Printed Cans" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">3D Printed Target Cans</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/measure1.jpeg" alt="Measuring Parts" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Precision Measurement & Prep</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/parts 1.jpeg" alt="3D Printed Components" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Printed Carriages & Mounts</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/proto1.jpeg" alt="Early Prototyping" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Initial Prototype Fit-Check</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/final assem 2.jpeg" alt="Gantry Axis Build" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Dual X-Axis Rail Assembly</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/final assem 3.jpeg" alt="Drive Mechanism Detail" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Timing Belt & Motor Drive</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/final assem 4.jpeg" alt="Combined Carriage Detail" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Combined Y-Carriage Mount</p>' +
+                '</div>' +
+                '<div>' +
+                    '<img src="Projects/more parts.jpeg" alt="Component Collection" class="rounded-lg w-full h-44 object-cover border border-slate-700 shadow-sm">' +
+                    '<p class="text-xs text-slate-400 mt-1 text-center font-medium">Hardware & Electronics Setup</p>' +
+                '</div>' +
+            '</div>' +
+        '</div>'
+    ],
+    challenges: "Manual homing led to human error, causing the mechanism to drive past physical maximums, damaging carriages, and un-wrapping drive belts.",
+    solution: "Established a fixed corner origin routine via custom firmware paired with a tactile reset button, automating zero-reference tracking and ensuring consistent mechanical limits."
+}
     {
         id: "2d-gantry-plotter",
         title: "Modular 3-Axis CNC Gantry Plotter",
