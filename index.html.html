@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering & CAD Project Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0284c7',     // Electric Blue
+                            blueHover: '#0369a1',
+                            orange: '#f97316',   // Industrial Orange
+                            orangeHover: '#ea580c',
+                            darkBg: '#0f172a',   // Dark Slate
+                            darkCard: '#1e293b',
+                            darkBorder: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .light .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .light ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+    </style>
+</head>
+<body class="bg-brand-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-brand-blue selection:text-white">
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="sticky top-0 z-40 w-full glass-header border-b border-slate-800 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand / Logo -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-blue to-cyan-400 flex items-center justify-center font-bold text-white text-lg shadow-md shadow-brand-blue/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-cube"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight block text-white dark-mode-text">Portfolio</span>
+                        <span class="text-xs text-brand-orange code-font block -mt-1">ENGINEERING & CAD</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#about" class="text-slate-300 hover:text-brand-blue transition-colors">About</a>
+                    <a href="#projects" class="text-slate-300 hover:text-brand-blue transition-colors">Projects</a>
+                    <a href="#skills" class="text-slate-300 hover:text-brand-blue transition-colors">Skills</a>
+                    <a href="#contact" class="text-slate-300 hover:text-brand-blue transition-colors">Contact</a>
+                </nav>
+
+                <!-- Actions: Theme, Add Project, Resume -->
+                <div class="hidden md:flex items-center space-x-3">
+                    <button id="themeToggle" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors" title="Toggle Theme">
+                        <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
+                    </button>
+                    <button onclick="openAddProjectModal()" class="px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-800 border border-slate-700 text-brand-orange hover:bg-brand-orange hover:text-white transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Add Project
+                    </button>
+                    <a href="#" onclick="triggerNotification('Resume link requested')" class="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg bg-brand-blue hover:bg-brand-blueHover text-white transition-all shadow-md shadow-brand-blue/20">
+                        <i class="fa-solid fa-file-pdf mr-1.5"></i> Resume
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="mobileThemeToggle" class="p-2 rounded-lg text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-moon text-lg" id="mobileThemeIcon"></i>
+                    </button>
+                    <button id="mobileMenuBtn" class="p-2 rounded-lg text-slate-400 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-slate-800 bg-slate-900 px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-brand-blue py-2">About</a>
+            <a href="#projects" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-brand-blue py-2">Projects</a>
+            <a href="#skills" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-brand-blue py-2">Skills</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-brand-blue py-2">Contact</a>
+            <div class="pt-2 flex flex-col gap-2">
+                <button onclick="openAddProjectModal(); toggleMobileMenu();" class="w-full text-center px-4 py-2 rounded-lg border border-brand-orange text-brand-orange font-medium text-sm">
+                    <i class="fa-solid fa-plus mr-1"></i> Add Project
+                </button>
+                <a href="#" onclick="triggerNotification('Resume link requested')" class="w-full text-center px-4 py-2 rounded-lg bg-brand-blue text-white font-bold text-sm">
+                    <i class="fa-solid fa-file-pdf mr-1"></i> Download Resume
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative py-16 lg:py-24 border-b border-slate-800 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#0284c7_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/30 text-brand-blue text-xs font-semibold code-font mb-6">
+                    <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse"></span>
+                    MECHANICAL & HARDWARE DESIGN PORTFOLIO
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                    Engineering & CAD Project <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-cyan-400 to-brand-orange">Portfolio</span>
+                </h1>
+                <p class="text-lg text-slate-300 leading-relaxed mb-8 max-w-2xl">
+                    Specializing in Mechanical Engineering, parametric CAD design, rapid prototyping, and mechatronic hardware development. Bringing physical systems from sketch concept to validated working assembly.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#projects" class="px-6 py-3 rounded-lg bg-brand-blue hover:bg-brand-blueHover text-white font-semibold shadow-lg shadow-brand-blue/20 transition-all flex items-center gap-2">
+                        <span>View Projects</span>
+                        <i class="fa-solid fa-arrow-down text-sm"></i>
+                    </a>
+                    <a href="#contact" class="px-6 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold border border-slate-700 transition-all flex items-center gap-2">
+                        <span>Contact Me</span>
+                        <i class="fa-solid fa-paper-plane text-sm"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="px-4 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all flex items-center gap-2" title="LinkedIn Profile">
+                        <i class="fa-brands fa-linkedin text-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-16 border-b border-slate-800 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-2 space-y-4">
+                    <div class="text-xs font-semibold code-font text-brand-orange tracking-wider uppercase">Engineering Profile</div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Designing robust electro-mechanical solutions with manufacturing in mind.</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        My work focuses on linear motion mechanics, automated assemblies, structural frame design, and tolerance management. I emphasize Design for Manufacturing and Assembly (DFMA), ensuring that CAD models seamlessly translate into physical prototypes using 3D printing, CNC machining, or laser cutting.
+                    </p>
+                </div>
+                <div class="bg-brand-darkCard p-6 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="flex items-center gap-3 text-brand-blue">
+                        <i class="fa-solid fa-compass-drafting text-xl"></i>
+                        <span class="font-bold text-white text-sm">Primary Toolkit</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 text-xs code-font">SolidWorks</span>
+                        <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 text-xs code-font">Fusion 360</span>
+                        <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 text-xs code-font">3D Printing / Slicing</span>
+                        <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 text-xs code-font">CNC Machining</span>
+                        <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 text-xs code-font">GD&T</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SHOWCASE SECTION -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
+
+        <section id="projects" class="scroll-mt-20">
+            <!-- Section Header & Filter Pills -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-slate-800 gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                        <i class="fa-solid fa-cubes text-brand-blue"></i> Featured Projects
+                    </h2>
+                    <p class="text-slate-400 mt-1 text-sm">Interactive CAD models, prototypes, and technical documentation.</p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2" id="filterContainer">
+                    <button onclick="filterProjects('All')" class="filter-btn active px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-brand-blue text-white" data-tag="All">All</button>
+                    <button onclick="filterProjects('CAD / Mechanical')" class="filter-btn px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-tag="CAD / Mechanical">CAD / Mechanical</button>
+                    <button onclick="filterProjects('Prototyping')" class="filter-btn px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-tag="Prototyping">Prototyping</button>
+                    <button onclick="filterProjects('Robotics')" class="filter-btn px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-tag="Robotics">Robotics</button>
+                </div>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cards injected dynamically via JavaScript -->
+            </div>
+        </section>
+
+        <!-- SKILLS & TOOLS SECTION -->
+        <section id="skills" class="scroll-mt-20">
+            <div class="mb-8 pb-4 border-b border-slate-800">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-screwdriver-wrench text-brand-orange"></i> Skills & Engineering Tools
+                </h2>
+                <p class="text-slate-400 mt-1 text-sm">Categorized capabilities across design, fabrication, electronics, and software.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- CAD & Modeling -->
+                <div class="bg-brand-darkCard p-6 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+                    <div class="w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-drafting-compass"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-white mb-3">CAD & Modeling</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> SolidWorks Parametric</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Fusion 360 Assemblies</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Technical Drawings & GD&T</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> FEA Stress Analysis</li>
+                    </ul>
+                </div>
+
+                <!-- Manufacturing -->
+                <div class="bg-brand-darkCard p-6 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+                    <div class="w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-industry"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-white mb-3">Manufacturing</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> FDM 3D Printing & Tuning</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> CNC Milling & Toolpath CAM</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Laser Cutting & Sheet Metal</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Metrology & Tolerancing</li>
+                    </ul>
+                </div>
+
+                <!-- Hardware & Actuators -->
+                <div class="bg-brand-darkCard p-6 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+                    <div class="w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-white mb-3">Hardware Systems</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Stepper Motors & Drivers</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Linear Extrusions & Rails</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Belt Drives & Lead Screws</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Endstop Sensors & Encoders</li>
+                    </ul>
+                </div>
+
+                <!-- Software & Control -->
+                <div class="bg-brand-darkCard p-6 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+                    <div class="w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-white mb-3">Software & Control</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Python Data Scripts</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Arduino C/C++ Firmware</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Git Version Control</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange text-xs"></i> Technical Documentation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="scroll-mt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                <div>
+                    <h2 class="text-3xl font-bold text-white flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-paper-plane text-brand-blue"></i> Contact Me
+                    </h2>
+                    <p class="text-slate-300 mb-6 text-sm leading-relaxed">
+                        Have questions regarding CAD designs, custom hardware builds, or potential engineering opportunities? Send a message directly using the form or reach out through social links.
+                    </p>
+
+                    <div class="space-y-3">
+                        <a href="mailto:engineer@example.com" class="flex items-center gap-4 p-3.5 rounded-xl bg-brand-darkCard border border-slate-800 hover:border-brand-blue/50 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-slate-400">Email</span>
+                                <span class="text-white font-medium text-sm group-hover:text-brand-blue transition-colors">engineer@portfolio.com</span>
+                            </div>
+                        </a>
+
+                        <a href="https://linkedin.com" target="_blank" class="flex items-center gap-4 p-3.5 rounded-xl bg-brand-darkCard border border-slate-800 hover:border-brand-blue/50 transition-colors group">
+                            <div class="w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-slate-400">LinkedIn</span>
+                                <span class="text-white font-medium text-sm group-hover:text-brand-blue transition-colors">linkedin.com/in/engineering-portfolio</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <form onsubmit="handleContactSubmit(event)" class="bg-brand-darkCard p-6 sm:p-8 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 class="text-lg font-bold text-white mb-2">Send Message</h3>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">Name</label>
+                        <input type="text" required placeholder="Your Name" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-blue text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">Email</label>
+                        <input type="email" required placeholder="email@example.com" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-blue text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">Message</label>
+                        <textarea rows="4" required placeholder="Your message or project inquiry..." class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-blue text-sm"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 rounded-lg bg-brand-blue hover:bg-brand-blueHover text-white font-bold shadow-md shadow-brand-blue/20 transition-all text-sm">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 py-8 bg-slate-950 text-slate-500 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© Engineering & CAD Project Portfolio. Hosted on GitHub Pages / Vercel ready.</p>
+            <div class="flex space-x-4 code-font text-slate-400">
+                <span>CAD</span> • <span>PROTOTYPING</span> • <span>MECHATRONICS</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: ADD NEW PROJECT -->
+    <div id="addProjectModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-6 relative shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAddProjectModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle text-brand-orange"></i> Add New Project
+            </h3>
+            <p class="text-xs text-slate-400">Add a project to your web portfolio. Saved in your browser's local storage.</p>
+            
+            <form id="addProjectForm" onsubmit="saveNewProject(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Project Title</label>
+                    <input id="projTitle" type="text" required placeholder="e.g., Precision CNC Enclosure" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-blue">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Category</label>
+                    <select id="projTag" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-blue">
+                        <option value="CAD / Mechanical">CAD / Mechanical</option>
+                        <option value="Prototyping">Prototyping</option>
+                        <option value="Robotics">Robotics</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Image URL</label>
+                    <input id="projImg" type="url" required placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-blue">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Short Summary</label>
+                    <input id="projShortDesc" type="text" required placeholder="Brief 1-sentence overview" class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-blue">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Detailed Technical Process</label>
+                    <textarea id="projFullDesc" rows="3" required placeholder="Key mechanical considerations, fabrication methods, motors, tolerances..." class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-blue"></textarea>
+                </div>
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeAddProjectModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium">Cancel</button>
+                    <button type="submit" class="px-4 py-2 rounded-lg bg-brand-orange text-white font-bold hover:bg-brand-orangeHover">Save Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: PROJECT DETAIL VIEWER -->
+    <div id="projectDetailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-4xl rounded-2xl p-6 sm:p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProjectModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center text-lg z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalContent">
+                <!-- Content dynamically injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden px-4 py-3 rounded-xl bg-brand-blue text-white font-semibold shadow-xl flex items-center gap-2 text-sm transition-all">
+        <i class="fa-solid fa-circle-check text-brand-orange"></i>
+        <span id="toastMsg">Action completed</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Gantry CAD Images from uploaded assets
+        const gantryCADImages = {
+            isometric: "98ec41a8-f8c6-476c-9777-62190a4758ea_4d1dea.jpeg",
+            front: "331a5cac-dddf-46e3-940b-29e8fb6e1067_4d1dea.jpeg",
+            side: "2f184f53-17f5-4730-baed-064dc992623b_4d1dea.jpeg",
+            top: "0daa8798-936d-42de-aa8e-ae1aa3f7f894_4d1dea.jpeg"
+        };
+
+        // Default Pre-loaded Projects
+        const defaultProjects = [
+            {
+                id: "gantry-cnc",
+                title: "Modular CoreXY / Cartesian Gantry CNC Mechanism",
+                tag: "CAD / Mechanical",
+                shortDesc: "Multi-axis linear carriage assembly utilizing 2020 extruded aluminum rails, dual stepper actuators, and custom tensioning plates.",
+                coverImg: gantryCADImages.isometric,
+                isInteractiveCAD: true,
+                cadViews: gantryCADImages,
+                tools: ["SolidWorks", "3D Printing", "Aluminum Extrusions", "GD&T"],
+                specs: [
+                    { label: "Linear Rails", val: "Dual 2020 Extruded Aluminum T-Slot" },
+                    { label: "Actuators", val: "NEMA 17 Stepper Motors (1.8° Step Angle)" },
+                    { label: "Transmission", val: "GT2 Timing Belts & Smooth Idler Pulleys" },
+                    { label: "Carriage Assembly", val: "Custom 3D Printed Motor Plates & V-Wheel Rollers" },
+                    { label: "Bearings", val: "Precision Linear Motion Rollers & Lead Screw Mounts" }
+                ],
+                highlights: [
+                    "Designed high-rigidity structural corner brackets to eliminate cross-frame racking during acceleration.",
+                    "Engineered custom 3D printed stepper motor mounts with reinforced ribbing for torsional stability.",
+                    "Incorporated GT2 timing belt tensioners for zero-backlash linear translation."
+                ],
+                challenges: "Maintaining orthogonality across parallel linear axes under tensioned belt loads.",
+                solution: "Implemented slotted fine-pitch tensioning bolts to allow independent belt alignment without frame distortion."
+            },
+            {
+                id: "robotic-effector",
+                title: "Robotic End-Effector Mechanism",
+                tag: "Robotics",
+                shortDesc: "Under-actuated mechanical gripper with adaptive compliant fingers for multi-geometry object grasping.",
+                coverImg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+                isInteractiveCAD: false,
+                tools: ["Fusion 360", "Laser Cutting", "PETG Printing", "Arduino"],
+                specs: [
+                    { label: "Grip Mechanism", val: "Compliant Flexure Joints" },
+                    { label: "Actuation", val: "High-Torque Servo Motor" },
+                    { label: "Payload", val: "1.2 kg Maximum Grasp" }
+                ],
+                highlights: [
+                    "Synthesized compliant link geometry using finite element deflection simulation.",
+                    "Rapidly iterated laser-cut acrylic finger linkage prototypes."
+                ],
+                challenges: "High friction along pin pivots caused erratic finger actuation.",
+                solution: "Replaced acrylic pin joints with miniature ball bearings and brass spacers."
+            },
+            {
+                id: "custom-enclosure",
+                title: "Precision Custom Electronics Enclosure",
+                tag: "Prototyping",
+                shortDesc: "NEMA-rated protective enclosure featuring IP-65 silicone gaskets and integrated heat sink pass-throughs.",
+                coverImg: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+                isInteractiveCAD: false,
+                tools: ["SolidWorks", "CNC Milling", "Thermal FEA", "Gasket Molding"],
+                specs: [
+                    { label: "Material", val: "Anodized 6061-T6 Aluminum" },
+                    { label: "Protection Rating", val: "IP-65 Weatherproof" },
+                    { label: "Cooling", val: "Integrated Fin Heat Sink" }
+                ],
+                highlights: [
+                    "Simulated thermal dissipation for enclosed 25W electronics driver board.",
+                    "Designed captive fastener slots for quick field maintenance."
+                ],
+                challenges: "Sealing cable entry glands without adding excessive bulk to the profile.",
+                solution: "Designed custom over-molded strain relief grommets fitted directly to housing channels."
+            }
+        ];
+
+        // State Management
+        let projects = [];
+        let currentFilter = 'All';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProjects();
+            renderProjects();
+            setupTheme();
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+        });
+
+        function loadProjects() {
+            const saved = localStorage.getItem('engineering_portfolio_projects');
+            if (saved) {
+                try {
+                    projects = JSON.parse(saved);
+                } catch (e) {
+                    projects = [...defaultProjects];
+                }
+            } else {
+                projects = [...defaultProjects];
+            }
+        }
+
+        function saveProjects() {
+            localStorage.setItem('engineering_portfolio_projects', JSON.stringify(projects));
+        }
+
+        // Render Cards
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = '';
+
+            const filtered = currentFilter === 'All' 
+                ? projects 
+                : projects.filter(p => p.tag === currentFilter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-500">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3 block"></i>
+                        <p>No projects found under category "${currentFilter}".</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(project => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-darkCard rounded-2xl border border-slate-800 overflow-hidden hover:border-brand-blue/60 transition-all duration-300 hover:-translate-y-1 shadow-lg group flex flex-col";
+                
+                card.innerHTML = `
+                    <div class="relative h-52 overflow-hidden bg-slate-950">
+                        <img src="${project.coverImg}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e293b/0284c7?text=CAD+View'">
+                        <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold text-brand-orange border border-slate-700">
+                            ${project.tag}
+                        </div>
+                        ${project.isInteractiveCAD ? `
+                        <div class="absolute top-3 right-3 bg-brand-blue text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase code-font">
+                            CAD View
+                        </div>` : ''}
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-blue transition-colors">${project.title}</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-2">${project.shortDesc}</p>
+                        </div>
+
+                        <div>
+                            ${project.tools ? `
+                            <div class="flex flex-wrap gap-1.5 mb-4">
+                                ${project.tools.slice(0, 3).map(t => `<span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[11px] code-font border border-slate-700">${t}</span>`).join('')}
+                            </div>
+                            ` : ''}
+                            <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+                                <span class="text-xs text-slate-500 code-font">Technical Specs</span>
+                                <button onclick="openProjectModal('${project.id}')" class="px-3 py-1.5 rounded-lg bg-brand-blue/10 text-brand-blue hover:bg-brand-blue hover:text-white font-semibold text-xs transition-all flex items-center gap-1.5">
+                                    View Details <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterProjects(tag) {
+            currentFilter = tag;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-tag') === tag) {
+                    btn.className = "filter-btn active px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-brand-blue text-white";
+                } else {
+                    btn.className = "filter-btn px-3 py-1.5 rounded-md text-xs font-semibold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700";
+                }
+            });
+            renderProjects();
+        }
+
+        // Modal Deep Dive Logic
+        function openProjectModal(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+
+            const modalContent = document.getElementById('modalContent');
+            
+            let galleryHTML = '';
+            if (project.isInteractiveCAD && project.cadViews) {
+                galleryHTML = `
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-brand-orange code-font">Interactive CAD Angle Viewer</span>
+                            <span class="text-xs text-slate-400">Click button below to switch viewport</span>
+                        </div>
+                        <div class="relative h-72 sm:h-96 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-3 flex items-center justify-center p-2">
+                            <img id="cadMainView" src="${project.cadViews.isometric}" alt="CAD Angle" class="max-h-full max-w-full object-contain">
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <button onclick="switchCadView('${project.cadViews.isometric}', this)" class="cad-tab active border-2 border-brand-blue rounded-lg py-2 bg-slate-950 text-xs text-center text-slate-200 font-medium transition-all">
+                                <i class="fa-solid fa-cube mr-1"></i> Isometric
+                            </button>
+                            <button onclick="switchCadView('${project.cadViews.front}', this)" class="cad-tab border-2 border-transparent hover:border-slate-700 rounded-lg py-2 bg-slate-950 text-xs text-center text-slate-200 font-medium transition-all">
+                                <i class="fa-solid fa-[#] mr-1"></i> Front Elevation
+                            </button>
+                            <button onclick="switchCadView('${project.cadViews.side}', this)" class="cad-tab border-2 border-transparent hover:border-slate-700 rounded-lg py-2 bg-slate-950 text-xs text-center text-slate-200 font-medium transition-all">
+                                <i class="fa-solid fa-[#] mr-1"></i> Side Profile
+                            </button>
+                            <button onclick="switchCadView('${project.cadViews.top}', this)" class="cad-tab border-2 border-transparent hover:border-slate-700 rounded-lg py-2 bg-slate-950 text-xs text-center text-slate-200 font-medium transition-all">
+                                <i class="fa-solid fa-[#] mr-1"></i> Top Down
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                galleryHTML = `
+                    <div class="relative h-64 sm:h-80 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-8">
+                        <img src="${project.coverImg}" class="w-full h-full object-cover">
+                    </div>
+                `;
+            }
+
+            modalContent.innerHTML = `
+                <div class="inline-block px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-semibold code-font mb-3">${project.tag}</div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3">${project.title}</h2>
+                <p class="text-slate-300 leading-relaxed mb-6 text-sm">${project.shortDesc}</p>
+
+                ${galleryHTML}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <!-- Specifications -->
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
+                        <h4 class="text-xs font-bold text-brand-blue uppercase tracking-wider mb-3 code-font">Key Specifications</h4>
+                        <ul class="space-y-2 text-xs sm:text-sm">
+                            ${project.specs ? project.specs.map(s => `
+                                <li class="flex justify-between border-b border-slate-800/60 pb-1.5">
+                                    <span class="text-slate-400">${s.label}</span>
+                                    <span class="text-white font-medium code-font">${s.val}</span>
+                                </li>
+                            `).join('') : '<li class="text-slate-400">Custom specification sheet</li>'}
+                        </ul>
+                    </div>
+
+                    <!-- Highlights -->
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
+                        <h4 class="text-xs font-bold text-brand-blue uppercase tracking-wider mb-3 code-font">Design Highlights</h4>
+                        <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+                            ${project.highlights ? project.highlights.map(h => `
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-chevron-right text-brand-orange text-xs mt-1"></i>
+                                    <span>${h}</span>
+                                </li>
+                            `).join('') : '<li>Custom design iteration</li>'}
+                        </ul>
+                    </div>
+                </div>
+
+                ${project.challenges ? `
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 mb-6">
+                    <h4 class="text-xs font-bold text-brand-orange uppercase tracking-wider mb-2 code-font">Design Challenge & Engineering Solution</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 mb-2"><strong class="text-white">Challenge:</strong> ${project.challenges}</p>
+                    <p class="text-xs sm:text-sm text-slate-300"><strong class="text-white">Solution:</strong> ${project.solution}</p>
+                </div>
+                ` : ''}
+
+                <div class="flex justify-end pt-4 border-t border-slate-800">
+                    <button onclick="closeProjectModal()" class="px-5 py-2 rounded-lg bg-slate-800 text-white font-semibold text-sm hover:bg-slate-700">Close Window</button>
+                </div>
+            `;
+
+            document.getElementById('projectDetailModal').classList.remove('hidden');
+        }
+
+        function switchCadView(imgSrc, btnEl) {
+            document.getElementById('cadMainView').src = imgSrc;
+            document.querySelectorAll('.cad-tab').forEach(b => {
+                b.classList.remove('border-brand-blue');
+                b.classList.add('border-transparent');
+            });
+            btnEl.classList.remove('border-transparent');
+            btnEl.classList.add('border-brand-blue');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectDetailModal').classList.add('hidden');
+        }
+
+        // Add Project Modal
+        function openAddProjectModal() {
+            document.getElementById('addProjectModal').classList.remove('hidden');
+        }
+
+        function closeAddProjectModal() {
+            document.getElementById('addProjectModal').classList.add('hidden');
+        }
+
+        function saveNewProject(e) {
+            e.preventDefault();
+            const title = document.getElementById('projTitle').value;
+            const tag = document.getElementById('projTag').value;
+            const img = document.getElementById('projImg').value;
+            const shortDesc = document.getElementById('projShortDesc').value;
+            const fullDesc = document.getElementById('projFullDesc').value;
+
+            const newProj = {
+                id: 'proj-' + Date.now(),
+                title: title,
+                tag: tag,
+                shortDesc: shortDesc,
+                coverImg: img,
+                isInteractiveCAD: false,
+                tools: ["CAD Modeling", "Prototyping"],
+                specs: [
+                    { label: "Category", val: tag },
+                    { label: "Added Date", val: "Recent Project" }
+                ],
+                highlights: [fullDesc],
+                challenges: "Physical assembly fit and spatial tolerances.",
+                solution: "Iterative CAD modeling and functional bench testing."
+            };
+
+            projects.unshift(newProj);
+            saveProjects();
+            renderProjects();
+            closeAddProjectModal();
+            triggerNotification('New project added successfully!');
+            document.getElementById('addProjectForm').reset();
+        }
+
+        // UI Helpers
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            triggerNotification('Message sent successfully!');
+            e.target.reset();
+        }
+
+        function triggerNotification(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Theme Switcher
+        function setupTheme() {
+            const toggle = document.getElementById('themeToggle');
+            const mobileToggle = document.getElementById('mobileThemeToggle');
+            const icon = document.getElementById('themeIcon');
+            const mobileIcon = document.getElementById('mobileThemeIcon');
+
+            function toggleTheme() {
+                document.body.classList.toggle('light');
+                const isLight = document.body.classList.contains('light');
+                
+                if (isLight) {
+                    document.body.classList.remove('bg-brand-darkBg', 'text-slate-100');
+                    document.body.classList.add('bg-slate-50', 'text-slate-900');
+                    icon.className = 'fa-solid fa-sun text-lg text-amber-500';
+                    mobileIcon.className = 'fa-solid fa-sun text-lg text-amber-500';
+                } else {
+                    document.body.classList.add('bg-brand-darkBg', 'text-slate-100');
+                    document.body.classList.remove('bg-slate-50', 'text-slate-900');
+                    icon.className = 'fa-solid fa-moon text-lg';
+                    mobileIcon.className = 'fa-solid fa-moon text-lg';
+                }
+            }
+
+            toggle.addEventListener('click', toggleTheme);
+            mobileToggle.addEventListener('click', toggleTheme);
+        }
+    </script>
+</body>
+</html>
